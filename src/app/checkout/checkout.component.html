@@ -1,0 +1,278 @@
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+
+        <!-- Customer form group -->
+        <div formGroupName="customer" class="form-area">
+          <h3>Замовник</h3>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="firstName">Ім'я</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="firstName" type="text" formControlName="firstName">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="lastName">Прізвище</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="lastName" type="text" formControlName="lastName">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="email">Email</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="email" type="email" formControlName="email">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping address form group -->
+        <div formGroupName="shippingAddress" class="form-area">
+          <h3>Адреса доставки</h3>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="shippingStreet">Вулиця</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="shippingStreet" type="text" formControlName="street">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="shppingCity">Місто</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="shppingCity" type="text" formControlName="city">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="shippingZipCode">Поштовий індекс</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="shippingZipCode" type="email" formControlName="zipCode">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="shippingCountry">Країна</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <select id="shippingCountry" formControlName="country">
+                  <option value="ukraine">Україна</option>
+                  <option value="poland">Польща</option>
+                  <option value="moldova">Молдова</option>
+                  <option value="romania">Румунія</option>
+                  <option value="germany">Польща</option>
+                  <option value="france">Франція</option>
+                  <option value="czechia">Чехія</option>
+                  <option value="switzerland">Швейцарія</option>
+                  <option value="england">Англія</option>
+                  <option value="scotland">Шотландія</option>
+                  <option value="wales">Уельс</option>
+                  <option value="spain">Іспанія</option>
+                  <option value="ireland">Ірландія</option>
+                  <option value="finland">Фінляндія</option>
+                  <option value="sweden">Швеція</option>
+                  <option value="norway">Норвегія</option>
+                  <option value="denmark">Данія</option>
+                  <option value="estonia">Естонія</option>
+                  <option value="latvia">Латвія</option>
+                  <option value="lithuania">Литва</option>
+                  <option value="italy">Італія</option>
+                  <option value="greece">Греція</option>
+                  <option value="turkey">Туреччина</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Checkbox to copy the shipping to billing-->
+        <div class="input-space">
+          <label class="au-checkbox">
+            <input type="checkbox" (change)="copyShippingToBilling($event)">
+            <span class="au-checkmark"></span>Адреса оплати на місці доставки
+          </label>
+        </div>
+
+        <!-- Billing address form group -->
+        <div formGroupName="billingAddress" class="form-area">
+          <h3>Адреса оплати</h3>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="billingStreet">Вулиця</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="billingStreet" type="text" formControlName="street">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="billingCity">Місто</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="billingCity" type="text" formControlName="city">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="billingZipCode">ZIP Code</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="billingZipCode" type="email" formControlName="zipCode">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="billingCountry">country</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <select id="billingCountry" formControlName="country">
+                  <option value="ukraine">Україна</option>
+                  <option value="poland">Польща</option>
+                  <option value="moldova">Молдова</option>
+                  <option value="romania">Румунія</option>
+                  <option value="germany">Польща</option>
+                  <option value="france">Франція</option>
+                  <option value="czechia">Чехія</option>
+                  <option value="switzerland">Швейцарія</option>
+                  <option value="england">Англія</option>
+                  <option value="scotland">Шотландія</option>
+                  <option value="wales">Уельс</option>
+                  <option value="spain">Іспанія</option>
+                  <option value="ireland">Ірландія</option>
+                  <option value="finland">Фінляндія</option>
+                  <option value="sweden">Швеція</option>
+                  <option value="norway">Норвегія</option>
+                  <option value="denmark">Данія</option>
+                  <option value="estonia">Естонія</option>
+                  <option value="latvia">Латвія</option>
+                  <option value="lithuania">Литва</option>
+                  <option value="italy">Італія</option>
+                  <option value="greece">Греція</option>
+                  <option value="turkey">Туреччина</option>>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Credit card info -->
+        <div formGroupName="creditCard" class="form-area">
+          <h3>Кредитна картка</h3>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="cardType">Card Type</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <select id="cardType" formControlName="cardType">
+                  <option value="visa">Visa</option>
+                  <option value="masterCard">MasterCard</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="cardHolder">Ім'я власника картки</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="cardHolder" type="text" formControlName="cardHolder">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="cardNumber">Номер кредитної картки</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="cardNumber" type="number" formControlName="cardNumber">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="expirationMonth">Термін дії картки (місяць)</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <select id="expirationMonth" formControlName="expirationMonth">
+                  <option value="todo">TODO</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="expirationYear">Термін дії картки (рік)</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <select id="expirationYear" formControlName="expirationYear">
+                  <option value="todo">TODO</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="securityCode">Код безпеки</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input id="securityCode" type="number" formControlName="securityCode">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Order details -->
+        <div class="form-area">
+          <h3>Переглянути замовлення</h3>
+          <p>Загальна кількість: {{totalQuantity}}</p>
+          <p>Доставка: безкоштовно</p>
+          <p>Загальна вартість: {{totalPrice | currency}}</p>
+        </div>
+
+        <!-- Submit button -->
+        <div class="text-center mb-5">
+          <button type="submit" class="btn btn-info">Здійснити покупку</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
