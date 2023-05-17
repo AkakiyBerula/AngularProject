@@ -777,6 +777,16 @@ table.table.table-bordered th {
   margin-top: 60px
 }
 
+.holder {   
+  width: auto;
+  display: inline-block;    
+}
+
+.holder img {
+  width: 80%; /* Will shrink image to 30% of its original width */
+  height: auto;    
+}​
+
 /**/
 
 /*
@@ -1131,3 +1141,5 @@ footer ul li {
     padding: 8px 0
   }
 }
+
+

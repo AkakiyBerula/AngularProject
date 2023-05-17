@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { GetResponseProducts, ProductService } from '../product.service';
 import { Product } from '../models/product.model';
@@ -16,6 +17,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   private readonly ID = 'id';
   private readonly KEYWORD = 'keyword';
 
+  
+
   products: Product[];
   searchMode: boolean;
   categoryName: string;
@@ -29,13 +32,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   private paramsSubscription: Subscription;
 
-  constructor(private productService: ProductService,
-              private cartService: CartService,
-              private route: ActivatedRoute) {
-  }
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.paramsSubscription = this.route.paramMap.subscribe(() => {
+    this.paramsSubscription = this.route.paramMap.pipe(
+      distinctUntilChanged()
+    ).subscribe((params) => {
       this.listProducts();
     });
   }
@@ -49,6 +55,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     } else {
       this.handleProducts(this.route.snapshot.paramMap);
     }
+  }
+
+  trackByProductId(index: number, product: Product): number {
+    return product.id;
   }
 
   onUpdatePageSize(event): void {
@@ -72,7 +82,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   private fetchSearchProducts(keyword: string): void {
-    this.productService.getProductsByKeyword(keyword, this.pageNumber - 1, this.pageSize)
+    this.productService
+      .getProductsByKeyword(keyword, this.pageNumber, this.pageSize)
       .subscribe(this.handleResponseProducts.bind(this));
   }
 
@@ -90,7 +101,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
       this.fetchProductsByCategoryId(currentCategoryId);
       this.fetchCategoryById(currentCategoryId);
-
     } else {
       this.fetchProducts();
       this.categoryName = 'All';
@@ -98,15 +108,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   private fetchProducts(): void {
-    this.productService.getProductList(this.pageNumber - 1, this.pageSize)
+    this.productService
+      .getProductList(this.pageNumber, this.pageSize)
       .subscribe(this.handleResponseProducts.bind(this));
   }
 
   private fetchProductsByCategoryId(categoryId: number): void {
-    this.productService.getProductListByCategory(categoryId, this.pageNumber - 1, this.pageSize)
-      .subscribe(response => {
-        this.handleResponseProducts(response);
-      });
+    this.productService
+      .getProductListByCategory(categoryId, this.pageNumber, this.pageSize)
+      .subscribe(this.handleResponseProducts.bind(this));
   }
 
   private handleResponseProducts(response: GetResponseProducts) {
@@ -117,7 +127,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   private fetchCategoryById(categoryId: number) {
-    this.productService.getProductCategoryById(categoryId).subscribe(productCategory => {
+    this.productService.getProductCategoryById(categoryId).subscribe((productCategory) => {
       this.categoryName = productCategory.categoryName;
     });
   }

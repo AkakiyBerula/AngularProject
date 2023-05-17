@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CartService } from '../cart/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -8,14 +9,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class CheckoutComponent implements OnInit {
   checkoutForm: FormGroup;
-
   totalPrice = 0;
   totalQuantity = 0;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private cartService: CartService) {
   }
 
   ngOnInit(): void {
+    this.cartService.totalPrice.subscribe(price => {
+      this.totalPrice = price;
+    });
+    this.cartService.totalQuantity.subscribe(quantity => {
+      this.totalQuantity = quantity;
+    });
+    this.cartService.computeCartTotals();
+
     this.checkoutForm = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: [''],
@@ -47,7 +55,7 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  copyShippingToBilling = (event): void => {
+  copyShippingToBilling(event: any): void {
     if (event.target.checked) {
       this.checkoutForm.controls.billingAddress.setValue(
         this.checkoutForm.controls.shippingAddress.value
@@ -57,8 +65,7 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
-  onSubmit = (): void => {
+  onSubmit(): void {
     console.log(this.checkoutForm.get('customer').value);
   }
-
 }

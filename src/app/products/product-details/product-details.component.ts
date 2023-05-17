@@ -39,7 +39,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   private handleProductDetails(params: ParamMap) {
-    this.productService.getProduct(params.get(this.ID)).subscribe(product => {
+    this.productService.getProduct(+params.get(this.ID)).subscribe(product => {
       this.product = product;
     });
   }
